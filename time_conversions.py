@@ -51,7 +51,7 @@ def get_leap_second_value():
             
         leapseconds = float(leapsecond_dat.splitlines()[-1].split(' ')[10])
     
-        return leapseconds
+        return leapseconds, leapsecond_dat
     
     elif not os.path.exists(f'{current_date.date()}\leapsecond_dat.txt'):
         # print('2')
@@ -65,7 +65,7 @@ def get_leap_second_value():
             
         leapseconds = float(leapsecond_dat.splitlines()[-1].split(' ')[10])
         
-        return leapseconds
+        return leapseconds, leapsecond_dat
     
     else:
         # print('3')
@@ -76,7 +76,7 @@ def get_leap_second_value():
         leapsecond_dat = lines
         leapseconds = float(leapsecond_dat[-1].split(' ')[10])
         
-        return leapseconds
+        return leapseconds, leapsecond_dat
 
 def utc2ut1(timelist):
     
@@ -126,7 +126,7 @@ def utc2ut1(timelist):
 
 def utc2gps(datetime):
     
-    leapseconds = get_leap_second_value()
+    leapseconds = get_leap_second_value()[0]
     time = datetime
     time = time + dt.timedelta(seconds = leapseconds)
     return time
