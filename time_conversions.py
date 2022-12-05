@@ -18,7 +18,7 @@ def get_time_conversion_tables():
     URL1 = r'https://maia.usno.navy.mil/ser7/finals2000A.daily'
     request_url1 = urllib.request.urlopen(URL1)
     read_url1 = request_url1.read()
-    
+    global data_table
     FINALS2000A = read_url1.decode("utf-8")
     
     FINALS2000A = FINALS2000A.splitlines()
@@ -31,7 +31,21 @@ def get_time_conversion_tables():
     
     data_table[['date', 'time_correction']] = data_table['datetime_correction'].str.split(' ',1, expand =True)
     
+    current_date = dt.datetime.now()
+    
+    if not os.path.exists(f'{current_date.date()}'):
+        # print('1')
+        os.mkdir(f'{current_date.date()}')
+        data_table[['julian_date','ut1-utc']].to_csv(fr'{current_date.date()}/utc2ut1.csv')
+        
+        
+    elif not os.path.exists(fr'{current_date.date()}\utc2ut1.csv'):
+        # print('2')
+        data_table[['julian_date','ut1-utc']].to_csv(fr'{current_date.date()}/utc2ut1.csv')
+    
     return data_table
+
+get_time_conversion_tables()
 
 def get_leap_second_value():
     
@@ -77,6 +91,7 @@ def get_leap_second_value():
         leapseconds = float(leapsecond_dat[-1].split(' ')[10])
         
         return leapseconds, leapsecond_dat
+
 
 def utc2ut1(timelist):
     
