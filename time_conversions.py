@@ -102,11 +102,8 @@ def utc2ut1(data):
     
         final_datetime_data = merged_data['final_datetime_data']
         
-        time_since_j2000 = (final_datetime_data - pd.to_datetime(dt.datetime(2000,1,1,12))).apply(pd.Timedelta.total_seconds)
-        # merged_data['ut1_time(seconds)'] = merged_data['fractional_day']*(24*60*60) + merged_data['ut1-utc']
-        time_since_j2000 = time_since_j2000/60 #minutes since j2000
         
-        return time_since_j2000
+        return final_datetime_data
     
     else:
         timecorrections = pd.read_csv(fr'{current_date.date()}\time_conv_tab')
@@ -125,11 +122,7 @@ def utc2ut1(data):
     
         final_datetime_data = merged_data['final_datetime_data']
         
-        time_since_j2000 = (final_datetime_data - pd.to_datetime(dt.datetime(2000,1,1,12))).apply(pd.Timedelta.total_seconds)
-        # merged_data['ut1_time(seconds)'] = merged_data['fractional_day']*(24*60*60) + merged_data['ut1-utc']
-        time_since_j2000 = time_since_j2000/60 #minutes since j2000
-        
-        return time_since_j2000
+        return final_datetime_data
 
 def utc2gps():
     
