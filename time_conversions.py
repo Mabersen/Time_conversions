@@ -78,7 +78,7 @@ def get_leap_second_value():
         
         return leapseconds
 
-def utc2ut1(data):
+def utc2ut1(timelist):
     
     current_date = dt.datetime.now()
     
@@ -88,7 +88,7 @@ def utc2ut1(data):
         timecorrections = get_time_conversion_tables()
         timecorrections.to_csv(fr'{current_date.date()}\time_conv_tab')
         
-        uncorrected_jd = pd.DataFrame(data[8])
+        uncorrected_jd = pd.DataFrame(timelist)
         uncorrected_jd.columns = ['datetime_data']
         uncorrected_jd['datetime_data'] = uncorrected_jd['datetime_data'].apply(str)
         uncorrected_jd[['date', 'time']] = uncorrected_jd['datetime_data'].str.split(' ',1, expand = True)
@@ -108,7 +108,7 @@ def utc2ut1(data):
     else:
         timecorrections = pd.read_csv(fr'{current_date.date()}\time_conv_tab')
         
-        uncorrected_jd = pd.DataFrame(data[8])
+        uncorrected_jd = pd.DataFrame(timelist)
         uncorrected_jd.columns = ['datetime_data']
         uncorrected_jd['datetime_data'] = uncorrected_jd['datetime_data'].apply(str)
         uncorrected_jd[['date', 'time']] = uncorrected_jd['datetime_data'].str.split(' ',1, expand = True)
@@ -124,9 +124,9 @@ def utc2ut1(data):
         
         return final_datetime_data
 
-def utc2gps():
+def utc2gps(datetime):
     
     leapseconds = get_leap_second_value()
-    time = dt.datetime.now()
-    time = time + dt.timedelta(leapseconds)
+    time = datetime
+    time = time + dt.timedelta(seconds = leapseconds)
     return time
