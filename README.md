@@ -14,6 +14,8 @@ Modules required to run:
   
   -get_leap_second_value(): This retrieves the current number of added leap seconds from https://maia.usno.navy.mil/ser7/tai-utc.dat. This value is used to convert utc to tai.
   
+Both of these functions will also save the corresponding data tables to your computer. The are saved to a folder named after the current date, and are named 'time_conv_tab' and 'leapsecond_dat' respectively. If the script detects that you already have these tables downloaded, it will instead use the dowloaded tables rather than retrieving them from the url again.
+  
  -utc2ut1(timelist): as the name implies, this converts from utc to ut1 time. The input is a list of python datetimes. This list is the datetimes you wish to convert to ut1 time.
  
  -utc2gps(datetime): This takes a datetime input and converts it to tai time by adding the current leapseconds.
